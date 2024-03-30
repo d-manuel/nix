@@ -12,12 +12,15 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      # ./home.nix
     ];
 
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
+
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -100,32 +103,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-	arandr
-	bat
-	eza
-	fzf
-	git
-	github-desktop
-	feh
-	gparted
-	htop
-	kitty
-	lf
-	lxappearance
-	neofetch
-	neovim
-	polybar
-	polkit_gnome
-	python3Full
-	python.pkgs.pip
-	rofi
-	starship
-	sxhkd
-	unzip
-	wget 
-	xorg.xmodmap
-	xfce.thunar
-	zoxide
+    vim
   ];
 
   fonts.packages = with pkgs; [
