@@ -5,6 +5,10 @@
 { config, pkgs, ... }:
 
 {
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = ["python-2.7.18.7"];
+
+
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -17,11 +21,6 @@
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -43,21 +42,32 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services = {
+    flatpak.enable = true;
+    dbus.enable = true;
+    picom.enable = true;
 
-  # Enable the XFCE Desktop Environment.
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.xfce.enable = true;
-
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+    xserver = {
+      enable = true;
+      layout = "us";
+      windowManager.bspwm = { 
+        enable = true;
+	configFile = "/home/manuel/dotfiles/.config/bspwm/bspwmrc";
+	sxhkd.configFile= "/home/manuel/dotfiles/.config/sxkhd/sxhkdrc";
+      };
+      displayManager = {
+        lightdm.enable = true;
+        setupCommands = ''
+          ${pkgs.xorg.xrandr}/bin/xrandr --output Virtual1 --mode 1920x1080 --pos 0x0 --rotate normal
+        '';
+        autoLogin = {
+          enable = true;
+          user = "manuel";
+        };
+      };
+      desktopManager.xterm.enable = false;
+    };
   };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -76,47 +86,51 @@
     #media-session.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.manuel = {
     isNormalUser = true;
-    description = "Manuel";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      firefox
-      flatpak
+      floorp
       gh
     #  thunderbird
     ];
   };
 
-  # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "manuel";
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-	neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-	htop
-	neofetch
-	git
-	kitty
-	wget 
-	starship
-	rofi
-	lf
-	zoxide
+	arandr
+	bat
 	eza
 	fzf
-	bat
+	git
+	github-desktop
+	feh
 	gparted
+	htop
+	kitty
+	lf
+	lxappearance
+	neofetch
+	neovim
+	polybar
+	polkit_gnome
+	python3Full
+	python.pkgs.pip
+	rofi
+	starship
+	sxhkd
+	unzip
+	wget 
+	xorg.xmodmap
+	xfce.thunar
+	zoxide
   ];
+
+  fonts.packages = with pkgs; [
+  (nerdfonts.override { fonts = [ "FiraCode"]; })
+];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -127,8 +141,30 @@
   # };
 
   # List services that you want to enable:
-  # xdg.portal.enable = true;
-  # services.flatpak.enable = true;
+  xdg.portal = {
+    enable = true;
+    # wlr.enable = true;
+    # gtk portal needed to make gtk apps happy
+    extraPortals = with pkgs; [xdg-desktop-portal-gtk];
+  };
+  security.polkit.enable = true;
+
+  systemd = {
+  user.services.polkit-gnome-authentication-agent-1 = {
+    description = "polkit-gnome-authentication-agent-1";
+    wantedBy = [ "graphical-session.target" ];
+    wants = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
+      };
+    };
+  };
+
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
@@ -137,7 +173,8 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
+  networking.enableIPv6 = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -148,5 +185,3 @@
   system.stateVersion = "23.11"; # Did you read the comment?
 
 }
-
-
