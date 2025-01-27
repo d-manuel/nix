@@ -14,7 +14,7 @@
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "${arch}";
         modules = [
-          ./system/configuration.nix
+          ./configuration.nix
         ];
       };
     };
