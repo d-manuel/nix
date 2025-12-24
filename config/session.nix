@@ -2,14 +2,37 @@
 
 {config, pkgs,  ...}:
 {
+  
+# services.xserver = {  
+# 	enable = true;  
+# 	libinput.enable = true;  
+# 	displayManager.lightdm.enable = true;  
+# 	desktopManager = {  
+# 		cinnamon.enable = true;  
+# 	};  
+# 	displayManager.defaultSession = "cinnamon";  
+# };
+  services.displayManager.cosmic-greeter.enable = true; 
+  services.desktopManager.cosmic.enable = true;
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+#  # Enable the X11 windowing system.
+#  services.xserver = { 
+#	  enable = true;
+#	  displayManager.gdm = {
+#		  enable = true;
+#		  wayland = false;
+#	  };
+#	  desktopManager.gnome.enable = true;
+#  };
+#
+#  # Enable automatic login for the user.
+# services.displayManager.autoLogin.enable = true;
+# services.displayManager.autoLogin.user = "manuel";
+#
+#  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
+#  systemd.services."getty@tty1".enable = false;
+#  systemd.services."autovt@tty1".enable = false;
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.gdm.wayland = false;
-  services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   # Doesnt work under gnome. Just configure it with the GUI for now
@@ -39,14 +62,13 @@
 #   '';
 #   wantedBy = [ "multi-user.target" ]; # starts after login
 # }
-systemd.user.services.keyrepeat = {
-  script = ''
-    xset r rate 200
-  '';
-  wantedBy = [ "graphical-session.target" ];
-  partOf = [ "graphical-session.target" ];
-};
-
+# systemd.user.services.keyrepeat = {
+#   script = ''
+#     xset r rate 200
+#   '';
+#   wantedBy = [ "graphical-session.target" ];
+#   partOf = [ "graphical-session.target" ];
+# };
   
 
   # Enable CUPS to print documents.
@@ -75,13 +97,7 @@ systemd.user.services.keyrepeat = {
     pkgs.nerd-fonts.fira-code
   ];
 
-  # Enable automatic login for the user.
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "manuel";
 
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
 
   # Enable flakes
   nix.settings.experimental-features = [
@@ -95,6 +111,7 @@ systemd.user.services.keyrepeat = {
     extraGroups = [
       "networkmanager"
       "wheel"
+      "docker"
     ];
   };
 
