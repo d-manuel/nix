@@ -28,8 +28,10 @@
       kmonad
       lazygit
       libreoffice-qt6-fresh
+      localsend
       neovim
       obsidian
+      prismlauncher
       pcloud
       ranger
       ripgrep
@@ -38,6 +40,7 @@
       thunderbird
       tldr
       trash-cli
+      tor-browser
       unzip
       vivaldi
       wezterm
@@ -56,7 +59,7 @@
     neovim
     wget
     nixfmt-rfc-style
-    python3Full
+    python3
     #python3Packages.pip
   ];
 }

@@ -3,17 +3,15 @@
 {config, pkgs,  ...}:
 {
   
-# services.xserver = {  
-# 	enable = true;  
-# 	libinput.enable = true;  
-# 	displayManager.lightdm.enable = true;  
-# 	desktopManager = {  
-# 		cinnamon.enable = true;  
-# 	};  
-# 	displayManager.defaultSession = "cinnamon";  
-# };
-  services.displayManager.cosmic-greeter.enable = true; 
-  services.desktopManager.cosmic.enable = true;
+services.xserver = {  
+	enable = true;  
+	libinput.enable = true;  
+	displayManager.lightdm.enable = true;  
+	desktopManager = {  
+		cinnamon.enable = true;  
+	};  
+	displayManager.defaultSession = "cinnamon";  
+};
 
 #  # Enable the X11 windowing system.
 #  services.xserver = { 
