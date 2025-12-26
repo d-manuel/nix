@@ -1,7 +1,5 @@
   {config, pkgs, ...}:
   {
-  # Install firefox.
-  # programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -16,7 +14,6 @@
     users.users.manuel.packages = with pkgs; [
       alacritty
       bat
-      bazecor
       brave
       cryptomator
       celluloid
@@ -25,13 +22,11 @@
       gcc
       gh #Github CLI
       gparted
-      kmonad
       lazygit
       libreoffice-qt6-fresh
       localsend
       neovim
       obsidian
-      prismlauncher
       pcloud
       ranger
       ripgrep
@@ -63,10 +58,5 @@
     #python3Packages.pip
   ];
 
-  programs.steam = {
-  enable = true;
-  remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-  dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-};
 }
 

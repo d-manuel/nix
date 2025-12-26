@@ -7,5 +7,6 @@
     ./config/packages.nix
     ./config/system.nix
     ./config/session.nix
+    ./config/gaming.nix
   ];
 }
