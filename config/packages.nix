@@ -12,14 +12,13 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
     users.users.manuel.packages = with pkgs; [
-      alacritty
       bat
       brave
       cryptomator
       celluloid
       fzf
-      flameshot
       gcc
+      gdu
       gh #Github CLI
       gparted
       lazygit
@@ -32,15 +31,13 @@
       ripgrep
       rofi
       redshift
-      thunderbird
+      teamspeak6-client
       tldr
       trash-cli
       tor-browser
       unzip
-      vivaldi
       wezterm
       xclip
-      xfce.thunar
       yazi
       zoxide
     ];
@@ -51,7 +48,6 @@
     git
     vim
     htop
-    neovim
     wget
     nixfmt-rfc-style
     python3
