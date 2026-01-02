@@ -41,4 +41,10 @@
     device = "/var/lib/swapfile";
     size = 8*1024;
   } ];
+
+	fileSystems."/mnt/LinuxGames" = {
+			device = "/dev/disk/by-uuid/570a7e88-491b-4da4-9d04-b5e801e24315";
+			fsType = "ext4";
+			options = [ "nofail"];
+	};
 }
