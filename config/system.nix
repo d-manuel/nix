@@ -35,16 +35,4 @@
 
 # If I use flake.nix to call this configuration.nix, it doesn't matter what I have written here (I think at least)
 	system.stateVersion = "25.11";
-
-# Add Swapfile of 8GB
- swapDevices = [ {
-    device = "/var/lib/swapfile";
-    size = 8*1024;
-  } ];
-
-	fileSystems."/mnt/LinuxGames" = {
-			device = "/dev/disk/by-uuid/570a7e88-491b-4da4-9d04-b5e801e24315";
-			fsType = "ext4";
-			options = [ "nofail"];
-	};
 }

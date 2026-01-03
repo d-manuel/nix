@@ -22,15 +22,12 @@
       gh #Github CLI
       gparted
       lazygit
-      libreoffice-qt6-fresh
       localsend
       neovim
       obsidian
       pcloud
       ranger
       ripgrep
-      rofi
-      redshift
       teamspeak6-client
       tldr
       trash-cli
@@ -39,6 +36,7 @@
       wezterm
       xclip
       yazi
+      zellij
       zoxide
     ];
 
